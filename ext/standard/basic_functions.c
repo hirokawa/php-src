@@ -27,6 +27,7 @@
 #include "php_standard.h"
 #include "php_math.h"
 #include "php_http.h"
+#include "php_password.h"
 #include "php_incomplete_class.h"
 #include "php_getopt.h"
 #include "ext/standard/info.h"
@@ -1859,6 +1860,29 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_getlastmod, 0)
 ZEND_END_ARG_INFO()
 /* }}} */
+/* {{{ password.c */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_password_hash, 0, 0, 1)
+	ZEND_ARG_INFO(0, password)
+	ZEND_ARG_INFO(0, algo)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_password_get_info, 0, 0, 1)
+	ZEND_ARG_INFO(0, hash)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_password_needs_rehash, 0, 0, 1)
+	ZEND_ARG_INFO(0, hash)
+	ZEND_ARG_INFO(0, algo)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_password_verify, 0, 0, 2)
+	ZEND_ARG_INFO(0, password)
+	ZEND_ARG_INFO(0, hash)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_password_make_salt, 0, 0, 1)
+	ZEND_ARG_INFO(0, length)
+	ZEND_ARG_INFO(0, raw_output)
+ZEND_END_ARG_INFO()
+/* }}} */
 /* {{{ proc_open.c */
 #ifdef PHP_CAN_SUPPORT_PROC_OPEN
 ZEND_BEGIN_ARG_INFO_EX(arginfo_proc_terminate, 0, 0, 1)
@@ -2869,6 +2893,11 @@ const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(base64_decode,													arginfo_base64_decode)
 	PHP_FE(base64_encode,													arginfo_base64_encode)
 
+	PHP_FE(password_hash,													arginfo_password_hash)
+	PHP_FE(password_get_info,												arginfo_password_get_info)
+	PHP_FE(password_needs_rehash,											arginfo_password_needs_rehash)
+	PHP_FE(password_verify,													arginfo_password_verify)
+	PHP_FE(password_make_salt,												arginfo_password_make_salt)
 	PHP_FE(convert_uuencode,												arginfo_convert_uuencode)
 	PHP_FE(convert_uudecode,												arginfo_convert_uudecode)
 
@@ -3620,6 +3649,7 @@ PHP_MINIT_FUNCTION(basic) /* {{{ */
 	BASIC_MINIT_SUBMODULE(browscap)
 	BASIC_MINIT_SUBMODULE(standard_filters)
 	BASIC_MINIT_SUBMODULE(user_filters)
+    BASIC_MINIT_SUBMODULE(password)
 
 #if defined(HAVE_LOCALECONV) && defined(ZTS)
 	BASIC_MINIT_SUBMODULE(localeconv)
