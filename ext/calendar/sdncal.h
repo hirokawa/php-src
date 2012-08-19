@@ -80,8 +80,8 @@ void SdnToJewish(long int sdn, int *pYear, int *pMonth, int *pDay);
 long int JewishToSdn(int year, int month, int day);
 extern char *JewishMonthName[14];
 extern char *JewishMonthNameLeap[14];
-extern char *JewishMonthHebName[14];
-extern char *JewishMonthHebNameLeap[14];
+extern char JewishMonthHebName[14][5];
+extern char JewishMonthHebNameLeap[14][7];
 extern int monthsPerYear[19];
 
 /* French republic calendar conversions. */
